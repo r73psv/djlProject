@@ -30,6 +30,11 @@
 			<artifactId>maven-plugin-api</artifactId>
 			<version>4.0.0-alpha-13</version>
 		</dependency>
+		<dependency>
+			<groupId>ai.djl</groupId>
+			<artifactId>basicdataset</artifactId>
+			<version>0.27.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

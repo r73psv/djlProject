@@ -2,7 +2,10 @@ package com.github.r73pls.djl_Project.ndarray;
 
 import ai.djl.Model;
 import ai.djl.metric.Metrics;
+import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.types.Shape;
+import ai.djl.nn.Block;
+import ai.djl.nn.ParameterList;
 import ai.djl.training.DefaultTrainingConfig;
 import ai.djl.training.EasyTrain;
 import ai.djl.training.Trainer;
@@ -11,6 +14,9 @@ import ai.djl.training.dataset.Batch;
 import ai.djl.translate.TranslateException;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class LinearRegressionTrainer {
 
@@ -66,8 +72,31 @@ public class LinearRegressionTrainer {
     }
 
 
+    public static void testModel(){
+        Block lauer= model.getBlock();
+        ParameterList params =lauer.getParameters();
+        NDArray wParams = params.valueAt(0).getArray();
+        NDArray bParams = params.valueAt(1).getArray();
+        float[] w = new float []{2,-3.4f};
+        System.out.printf("Error in estimating w: [%f %f]\n", w[0], w[1]);
+        System.out.printf("Error in estimating b: %f\n", 4.2f - bParams.getFloat());
+    }
 
+public static void saveModel(int numEpochs){
+    Path modelDir = Paths.get("D:\\javaProjcts\\djlProject\\models\\");
+    try {
+        Files.createDirectories(modelDir);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    model.setProperty("Epoch", Integer.toString(numEpochs)); // save epochs trained as metadata
 
+    try {
+        model.save(modelDir, "lin-reg");
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
 
+}
 
 }

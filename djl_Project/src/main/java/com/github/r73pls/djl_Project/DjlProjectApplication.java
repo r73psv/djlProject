@@ -4,6 +4,7 @@ package com.github.r73pls.djl_Project;
 import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.NDManager;
 import ai.djl.ndarray.types.Shape;
+import com.github.r73pls.djl_Project.ndarray.LinearRegressionTrainer;
 import com.github.r73pls.djl_Project.ndarray.NdArrayLes1;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -53,6 +54,9 @@ public class DjlProjectApplication {
         NDManager manager=NDManager.newBaseManager();
         NDArray a = manager.create(new float[]{2, 1, 4, 3, 1, 2, 3, 4, 4, 3, 2, 1});
         System.out.println(NdArrayLes1.dotNDArray(a,a));
+		LinearRegressionTrainer.trainModel(10,3);
+		LinearRegressionTrainer.testModel();
+		LinearRegressionTrainer.saveModel(3);
 
 	}
 
