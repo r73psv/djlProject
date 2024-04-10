@@ -24,14 +24,9 @@ public class DataSetImage {
      * необходимость случайной перетасовки данных соответственно.
      */
 
-    public static void getDataSet() {
+    public static void TrainDataSet() {
         FashionMnist mnistTrain = FashionMnist.builder()
                 .optUsage(Dataset.Usage.TRAIN)
-                .setSampling(batchSize, randomShuffle)
-                .optLimit(Long.getLong("DATASET_LIMIT", Long.MAX_VALUE))
-                .build();
-        FashionMnist mnistTest = FashionMnist.builder()
-                .optUsage(Dataset.Usage.TEST)
                 .setSampling(batchSize, randomShuffle)
                 .optLimit(Long.getLong("DATASET_LIMIT", Long.MAX_VALUE))
                 .build();
@@ -42,6 +37,14 @@ public class DataSetImage {
         } catch (TranslateException e) {
             throw new RuntimeException(e);
         }
+    }
+    public static void TestDataSet() {
+        FashionMnist mnistTest = FashionMnist.builder()
+                .optUsage(Dataset.Usage.TEST)
+                .setSampling(batchSize, randomShuffle)
+                .optLimit(Long.getLong("DATASET_LIMIT", Long.MAX_VALUE))
+                .build();
+
         try {
             mnistTest.prepare();
         } catch (IOException e) {
@@ -82,23 +85,23 @@ public class DataSetImage {
      */
 
     // Saved in the FashionMnistUtils class for later use
-    public static BufferedImage showImages(
-         ArrayDataset dataset, int number, int width, int height, int scale, NDManager manager) {
-        // Plot a list of images
-        BufferedImage[] images = new BufferedImage[number];
-        String[] labels = new String[number];
-        for (int i = 0; i < number; i++) {
-            Record record = dataset.get(manager, i);
-            NDArray array = record.getData().get(0).squeeze(-1);
-            int y = (int) record.getLabels().get(0).getFloat();
-            images[i] = toImage(array, width, height);
-            labels[i] = getFashionMnistLabel(y);
-        }
-        int w = images[0].getWidth() * scale;
-        int h = images[0].getHeight() * scale;
-
-        return ImageUtils.showImages(images, labels, w, h);
-    }
+//    public static BufferedImage showImages(
+//         ArrayDataset dataset, int number, int width, int height, int scale, NDManager manager) {
+//        // Plot a list of images
+//        BufferedImage[] images = new BufferedImage[number];
+//        String[] labels = new String[number];
+//        for (int i = 0; i < number; i++) {
+//            Record record = dataset.get(manager, i);
+//            NDArray array = record.getData().get(0).squeeze(-1);
+//            int y = (int) record.getLabels().get(0).getFloat();
+//            images[i] = toImage(array, width, height);
+//            labels[i] = getFashionMnistLabel(y);
+//        }
+//        int w = images[0].getWidth() * scale;
+//        int h = images[0].getHeight() * scale;
+//
+//        return ImageUtils.showImages(images, labels, w, h);
+//    }
 
     private static BufferedImage toImage(NDArray array, int width, int height) {
         System.setProperty("apple.awt.UIElement", "true");
@@ -114,4 +117,5 @@ public class DataSetImage {
         g.dispose();
         return img;
     }
+
 }

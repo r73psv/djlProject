@@ -4,6 +4,10 @@ package com.github.r73pls.djl_Project;
 import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.NDManager;
 import ai.djl.ndarray.types.Shape;
+import com.github.r73pls.djl_Project.imageClassificftion.DataSetImage;
+import com.github.r73pls.djl_Project.imageClassificftion.LossFunction;
+import com.github.r73pls.djl_Project.imageClassificftion.ModelSoftmax;
+import com.github.r73pls.djl_Project.imageClassificftion.TrainingModelSm;
 import com.github.r73pls.djl_Project.ndarray.LinearRegressionTrainer;
 import com.github.r73pls.djl_Project.ndarray.NdArrayLes1;
 import org.springframework.boot.SpringApplication;
@@ -57,6 +61,7 @@ public class DjlProjectApplication {
 		LinearRegressionTrainer.trainModel(10,3);
 		LinearRegressionTrainer.testModel();
 		LinearRegressionTrainer.saveModel(3);
+		TrainingModelSm.trainCh3(ModelSoftmax.net(DataSetImage.TrainDataSet(),784,10), DataSetImage.TrainDataSet(),DataSetImage.TestDataSet(), LossFunction::getLossFunction);
 
 	}
 

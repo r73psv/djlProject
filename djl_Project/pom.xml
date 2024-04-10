@@ -35,6 +35,12 @@
 			<artifactId>basicdataset</artifactId>
 			<version>0.27.0</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.streamsupport</groupId>
+			<artifactId>streamsupport-atomic</artifactId>
+			<version>1.7.4</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -66,6 +72,11 @@
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.djl.tensorflow</groupId>
+            <artifactId>tensorflow-api</artifactId>
+            <version>0.27.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
