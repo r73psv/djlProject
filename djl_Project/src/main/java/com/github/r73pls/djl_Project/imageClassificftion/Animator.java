@@ -1,10 +1,20 @@
 package com.github.r73pls.djl_Project.imageClassificftion;
 import tech.tablesaw.api.*;
+import tech.tablesaw.api.Row;
 import tech.tablesaw.columns.Column;
 import ai.djl.training.dataset.Record;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.DisplayMode.*;
+import java.awt.datatransfer.
+import tech.tablesaw.api.FloatColumn;
+
+import tech.tablesaw.plotly.api.LinePlot;
+
+import tech.tablesaw.plotly.api.*;
+import org.apache.commons.lang3.ArrayUtils;
+
 public class Animator {
     private String id; // Id reference of graph(for updating graph)
     private Table data; // Data Points
@@ -29,7 +39,7 @@ public class Animator {
         newRow.setString("metric", metric);
     }
 
-    // Add accuracy, train accuracy, and train loss metrics for a given epoch
+    // Добавьте показатели точности, точности поездов и потерь поездов для данной эпохи.
     // Then plot it on the graph
     public void add(float epoch, float accuracy, float trainAcc, float trainLoss) {
         add(epoch, trainLoss, "train loss");
@@ -38,18 +48,18 @@ public class Animator {
         show();
     }
 
-    // Display the graph
+    // Отображение графика
     public void show() {
         if (id.equals("")) {
-     //       id = display(LinePlot.create("", data, "epoch", "value", "metric"));
+           id = display(LinePlot.create("", data, "epoch", "value", "metric"));
             return;
         }
         update();
     }
 
-    // Update the graph
+    //Обновить график
     public void update() {
- //       updateDisplay(id, LinePlot.create("", data, "epoch", "value", "metric"));
+       updateDisplay(id, LinePlot.create("", data, "epoch", "value", "metric"));
     }
 
     // Returns the column at the given index
