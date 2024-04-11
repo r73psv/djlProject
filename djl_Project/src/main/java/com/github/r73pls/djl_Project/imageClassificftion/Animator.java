@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.DisplayMode.*;
-import java.awt.datatransfer.
 import tech.tablesaw.api.FloatColumn;
 
 import tech.tablesaw.plotly.api.LinePlot;
@@ -45,22 +44,22 @@ public class Animator {
         add(epoch, trainLoss, "train loss");
         add(epoch, trainAcc, "train accuracy");
         add(epoch, accuracy, "test accuracy");
-        show();
+//        show();
     }
 
     // Отображение графика
-    public void show() {
-        if (id.equals("")) {
-           id = display(LinePlot.create("", data, "epoch", "value", "metric"));
-            return;
-        }
-        update();
-    }
+//    public void show() {
+//        if (id.equals("")) {
+//           id = display(LinePlot.create("", data, "epoch", "value", "metric"));
+//            return;
+//        }
+//        update();
+//    }
 
     //Обновить график
-    public void update() {
-       updateDisplay(id, LinePlot.create("", data, "epoch", "value", "metric"));
-    }
+//    public void update() {
+//       updateDisplay(id, LinePlot.create("", data, "epoch", "value", "metric"));
+//    }
 
     // Returns the column at the given index
     // if it is a float column

@@ -17,7 +17,7 @@ public class FashionMinstUtil {
      * мы устанавливаем цвет в оттенках серого и отображаем его вместе с надписями во внешнем окне.
      */
 
-    // Saved in the FashionMnistUtils class for later use
+     //Сохраняется в классе Fashion Mnist Utils для дальнейшего использования.
 //    public static BufferedImage showImages(
 //            ArrayDataset dataset, int number, int width, int height, int scale, NDManager manager) {
 //        // Plot a list of images
@@ -42,8 +42,8 @@ public class FashionMinstUtil {
         Graphics2D g = (Graphics2D) img.getGraphics();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                float c = array.getFloat(j, i) / 255; // scale down to between 0 and 1
-                g.setColor(new Color(c, c, c)); // set as a gray color
+                float c = array.getFloat(j, i) / 255; // масштабировать до значения от 0 до 1
+                g.setColor(new Color(c, c, c)); // установить серый цвет
                 g.fillRect(i, j, 1, 1);
             }
         }

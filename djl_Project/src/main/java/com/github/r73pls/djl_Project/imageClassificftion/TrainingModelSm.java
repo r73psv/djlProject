@@ -10,25 +10,32 @@ import ai.djl.training.GradientCollector;
 import ai.djl.training.dataset.Batch;
 import ai.djl.training.dataset.Dataset;
 import ai.djl.translate.TranslateException;
-
 import java.io.IOException;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
-import static com.github.r73pls.djl_Project.imageClassificftion.LossFunction.accuracy;
+import static com.github.r73pls.djl_Project.imageClassificftion.Net.*;
+import static com.github.r73pls.djl_Project.imageClassificftion.Utils.*;
 
 public class TrainingModelSm {
     @FunctionalInterface
     public static interface ParamConsumer {
         void accept(NDList params, float lr, int batchSize);
     }
-
+    public static void sgd(NDList params, float lr, int batchSize) {
+        for (int i = 0; i < params.size(); i++) {
+            NDArray param = params.get(i);
+            // Update param
+            // param = param - param.gradient * lr / batchSize
+            param.subi(param.getGradient().mul(lr).div(batchSize));
+        }
+    }
     static NDManager manager = NDManager.newBaseManager();
     public static float[] trainEpochCh3(UnaryOperator<NDArray> net, Iterable<Batch> trainIter, BinaryOperator<NDArray> loss, ParamConsumer updater) {
         Accumulator metric = new Accumulator(3); // trainLossSum, trainAccSum, numExamples
 
         // Attach Gradients
-        for (NDArray param : ModelSoftmax.params(784,10)) {
+        for (NDArray param : params) {
             param.setRequiresGradient(true);
         }
 
@@ -47,7 +54,7 @@ public class TrainingModelSm {
                         (float)y.size()});
                 gc.close();
             }
-            updater.accept(ModelSoftmax.params(784,10), 0.03f, batch.getSize());  // Update parameters using their gradient
+            updater.accept(params, 0.1f, batch.getSize());  // Update parameters using their gradient
 
             batch.close();
         }
@@ -61,7 +68,7 @@ public class TrainingModelSm {
         Animator animator = new Animator();
         for (int i = 1; i <= numEpochs; i++) {
             float[] trainMetrics = trainEpochCh3(net, trainDataset.getData(manager), loss, updater);
-            float accuracy = LossFunction.evaluateAccuracy(net, testDataset.getData(manager));
+            float accuracy = Utils.evaluateAccuracy(net, testDataset.getData(manager));
             float trainAccuracy = trainMetrics[1];
             float trainLoss = trainMetrics[0];
 

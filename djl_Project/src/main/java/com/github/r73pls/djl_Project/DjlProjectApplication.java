@@ -1,13 +1,13 @@
 package com.github.r73pls.djl_Project;
 
 
+import ai.djl.basicdataset.cv.classification.FashionMnist;
 import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.NDManager;
 import ai.djl.ndarray.types.Shape;
-import com.github.r73pls.djl_Project.imageClassificftion.DataSetImage;
-import com.github.r73pls.djl_Project.imageClassificftion.LossFunction;
-import com.github.r73pls.djl_Project.imageClassificftion.ModelSoftmax;
-import com.github.r73pls.djl_Project.imageClassificftion.TrainingModelSm;
+import ai.djl.training.dataset.Dataset;
+import ai.djl.translate.TranslateException;
+import com.github.r73pls.djl_Project.imageClassificftion.*;
 import com.github.r73pls.djl_Project.ndarray.LinearRegressionTrainer;
 import com.github.r73pls.djl_Project.ndarray.NdArrayLes1;
 import org.springframework.boot.SpringApplication;
@@ -24,45 +24,68 @@ public class DjlProjectApplication {
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(DjlProjectApplication.class, args);
-		NDArray nd=  NdArrayLes1.createNdArray(12);
-		Shape shape = NdArrayLes1.getNDarrayShape(nd);
-		NDArray nd2 = NdArrayLes1.reshapeNDarray(nd,new Shape(2,3,-1));
-		Long sizeArray = NdArrayLes1.getNdArraySize(nd2);
-		NDArray nd3=NdArrayLes1.createNdarray(new Shape(5,6,2));
-		NDArray nd4=NdArrayLes1.createInitializedNDarray(2,new Shape(4,3,2));
-		System.out.println(nd);
-		System.out.println(shape);
-		System.out.println(sizeArray);
-		System.out.println(nd2);
-		System.out.println(nd3);
-		System.out.println(nd4);
-		float[] x = new float[]{1f,2f,3f,4f,5f};
-		float[] y = new float[]{5f,4f,3f,2f,1f};
-		//арифметические операции
-		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"+"));
-		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"-"));
-		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"*"));
-		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"/"));
-		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"**"));
-		//слияние массивов
-		NDArray nd5=NdArrayLes1.createNdArray(12).reshape(new Shape(3,4));
-		NDArray nd6=NdArrayLes1.createNdArray(12).reshape(new Shape(3,4));
-		System.out.println(NdArrayLes1.concatNDarray(nd5,nd6));
-		System.out.println(nd5.concat(nd6,1));
-		System.out.println(NdArrayLes1.eqNDArray(nd5,nd6));
-		//суммирование элементов массива
-		System.out.println(NdArrayLes1.sumElementNDArray(nd5));
-		//получение части массива
-		System.out.println(NdArrayLes1.getIndex(nd5,"1:5"));
-        //скалярное произведение
-        NDManager manager=NDManager.newBaseManager();
-        NDArray a = manager.create(new float[]{2, 1, 4, 3, 1, 2, 3, 4, 4, 3, 2, 1});
-        System.out.println(NdArrayLes1.dotNDArray(a,a));
-		LinearRegressionTrainer.trainModel(10,3);
-		LinearRegressionTrainer.testModel();
-		LinearRegressionTrainer.saveModel(3);
-		TrainingModelSm.trainCh3(ModelSoftmax.net(DataSetImage.TrainDataSet(),784,10), DataSetImage.TrainDataSet(),DataSetImage.TestDataSet(), LossFunction::getLossFunction);
+//		NDArray nd=  NdArrayLes1.createNdArray(12);
+//		Shape shape = NdArrayLes1.getNDarrayShape(nd);
+//		NDArray nd2 = NdArrayLes1.reshapeNDarray(nd,new Shape(2,3,-1));
+//		Long sizeArray = NdArrayLes1.getNdArraySize(nd2);
+//		NDArray nd3=NdArrayLes1.createNdarray(new Shape(5,6,2));
+//		NDArray nd4=NdArrayLes1.createInitializedNDarray(2,new Shape(4,3,2));
+//		System.out.println(nd);
+//		System.out.println(shape);
+//		System.out.println(sizeArray);
+//		System.out.println(nd2);
+//		System.out.println(nd3);
+//		System.out.println(nd4);
+//		float[] x = new float[]{1f,2f,3f,4f,5f};
+//		float[] y = new float[]{5f,4f,3f,2f,1f};
+//		//арифметические операции
+//		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"+"));
+//		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"-"));
+//		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"*"));
+//		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"/"));
+//		System.out.println(NdArrayLes1.calcNdarrayFloat(x,y,"**"));
+//		//слияние массивов
+//		NDArray nd5=NdArrayLes1.createNdArray(12).reshape(new Shape(3,4));
+//		NDArray nd6=NdArrayLes1.createNdArray(12).reshape(new Shape(3,4));
+//		System.out.println(NdArrayLes1.concatNDarray(nd5,nd6));
+//		System.out.println(nd5.concat(nd6,1));
+//		System.out.println(NdArrayLes1.eqNDArray(nd5,nd6));
+//		//суммирование элементов массива
+//		System.out.println(NdArrayLes1.sumElementNDArray(nd5));
+//		//получение части массива
+//		System.out.println(NdArrayLes1.getIndex(nd5,"1:5"));
+//        //скалярное произведение
+//        NDManager manager=NDManager.newBaseManager();
+//        NDArray a = manager.create(new float[]{2, 1, 4, 3, 1, 2, 3, 4, 4, 3, 2, 1});
+//        System.out.println(NdArrayLes1.dotNDArray(a,a));
+//		LinearRegressionTrainer.trainModel(10,3);
+//		LinearRegressionTrainer.testModel();
+//		LinearRegressionTrainer.saveModel(3);
 
+		int batchSize = 256;
+		boolean randomShuffle = true;
+
+// get training and validation dataset
+		FashionMnist trainingSet = FashionMnist.builder()
+				.optUsage(Dataset.Usage.TRAIN)
+				.setSampling(batchSize, randomShuffle)
+				.optLimit(Long.getLong("DATASET_LIMIT", Long.MAX_VALUE))
+				.build();
+
+		FashionMnist validationSet = FashionMnist.builder()
+				.optUsage(Dataset.Usage.TEST)
+				.setSampling(batchSize, false)
+				.optLimit(Long.getLong("DATASET_LIMIT", Long.MAX_VALUE))
+				.build();
+
+		int numEpochs = 5;
+		float lr = 0.1f;
+
+		try {
+			TrainingModelSm.trainCh3(Net::net, trainingSet, validationSet, LossFunction::crossEntropy, numEpochs, Updater::updater);
+		} catch (TranslateException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 

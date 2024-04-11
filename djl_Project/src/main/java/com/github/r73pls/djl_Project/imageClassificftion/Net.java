@@ -3,30 +3,27 @@ package com.github.r73pls.djl_Project.imageClassificftion;
 import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.NDList;
 import ai.djl.ndarray.NDManager;
-import ai.djl.ndarray.index.NDIndex;
 import ai.djl.ndarray.types.DataType;
 import ai.djl.ndarray.types.Shape;
-import lombok.Getter;
 
 
-public class ModelSoftmax {
+public class Net {
 
     private static NDManager manager = NDManager.newBaseManager();
-
+    private static int numInputs = 784;
+    private static int numOutputs = 10;
     /**
-     *Каждый пример в необработанных данных представляет собой изображение размером 28*28.
+     *  Каждый пример в необработанных данных представляет собой изображение размером 28*28.
      *  В этом разделе мы сгладим каждое изображение, рассматривая их как 1D-векторы длиной 784.
      *  В регрессии softmax у нас столько выходных данных, сколько существует категорий. Поскольку наш набор данных
      *  содержит 10 категорий, наша сеть будет иметь выходное измерение 10. Следовательно, наши веса будут составлять
      *  матрицу 784*10, а смещения будут составлять вектор 1*10. Мы будем инициализировать наши веса W с помощью
      *  гауссовского шума и наших смещений 0.
      */
-    public static NDList params (int numInputs, int numOutputs) {
-        NDArray W = manager.randomNormal(0, 0.001f, new Shape(numInputs, numOutputs), DataType.FLOAT32);
-        NDArray b = manager.zeros(new Shape(numOutputs), DataType.FLOAT32);
-        NDList params = new NDList(W, b);
-        return params;
-        }
+        private  static NDArray W = manager.randomNormal(0, 0.001f, new Shape(numInputs, numOutputs), DataType.FLOAT32);
+        private static NDArray b = manager.zeros(new Shape(numOutputs), DataType.FLOAT32);
+        public static NDList params = new NDList(W, b);
+
 
        /**
         * Прежде чем внедрять регрессионную модель softmax, давайте кратко рассмотрим, как такие операторы, как sum(),
@@ -63,8 +60,7 @@ public class ModelSoftmax {
      * изображение в вектор с числовыми значениями длины с помощью функции reshape() перед передачей данных через модель.
      */
 
-       public static NDArray net(NDArray X,  int numInputs, int numOutputs) {
-            NDList params = params(numInputs, numOutputs);
+       public static NDArray net(NDArray X) {
             NDArray currentW = params.get(0);
             NDArray currentB = params.get(1);
             return softmax(X.reshape(new Shape(-1, numInputs)).dot(currentW).add(currentB));
