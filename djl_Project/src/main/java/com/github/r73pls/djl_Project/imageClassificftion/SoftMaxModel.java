@@ -3,15 +3,20 @@ package com.github.r73pls.djl_Project.imageClassificftion;
 import ai.djl.Model;
 import ai.djl.ndarray.NDManager;
 
+import ai.djl.ndarray.types.Shape;
 import ai.djl.nn.Blocks;
 import ai.djl.nn.SequentialBlock;
 import ai.djl.nn.core.Linear;
+import ai.djl.training.DefaultTrainingConfig;
+import ai.djl.training.Trainer;
+import ai.djl.training.evaluator.Accuracy;
+import ai.djl.training.listener.TrainingListener;
 import ai.djl.training.loss.Loss;
 import ai.djl.training.optimizer.Optimizer;
 import ai.djl.training.tracker.Tracker;
 
 public class SoftMaxModel {
-    NDManager manager =NDManager.newBaseManager();
+   static NDManager manager =NDManager.newBaseManager();
 
     /**
      *  Выходной слой регрессии softmax является полностью связанным слоем.
@@ -34,7 +39,7 @@ public class SoftMaxModel {
      * в нашу новую функцию потерь, мы просто передадим логиты и сразу вычислим softmax и его логарифмическую функцию
      * потерь softmaxCrossEntropy, которая выполняет такие умные действия, как трюк log-sum-exp (смотрите в Википедии).
      */
-    Loss loss =Loss.softmaxCrossEntropyLoss();
+    static Loss loss =Loss.softmaxCrossEntropyLoss();
 
     /**
      * Здесь мы используем стохастический градиентный спуск с минибатчами со скоростью обучения 0,1
@@ -42,7 +47,19 @@ public class SoftMaxModel {
      * с линейной регрессией, и это иллюстрирует общую применимость оптимизаторов.
      */
 
-    Tracker lrt = Tracker.fixed(0.1f);
-    Optimizer sgd = Optimizer.sgd().setLearningRateTracker(lrt).build();
+    static Tracker lrt = Tracker.fixed(0.1f);
+    static Optimizer sgd = Optimizer.sgd().setLearningRateTracker(lrt).build();
+
+    /**
+     * Теперь мы создадим конфигурацию обучения, описывающую, как мы хотим обучать нашу модель.
+     * Затем мы создадим инструктора, который проведет обучение за нас.
+     */
+    static DefaultTrainingConfig config = new DefaultTrainingConfig(loss)
+            .optOptimizer(sgd) // Optimizer
+            .optDevices(manager.getEngine().getDevices(1)) // single GPU
+            .addEvaluator(new Accuracy()) // Model Accuracy
+            .addTrainingListeners(TrainingListener.Defaults.logging()); // Logging
+
+   public static Trainer trainer = SoftMaxModel.model().newTrainer(config);
 
 }

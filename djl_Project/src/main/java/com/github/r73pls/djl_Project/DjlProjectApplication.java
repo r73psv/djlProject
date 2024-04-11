@@ -2,9 +2,13 @@ package com.github.r73pls.djl_Project;
 
 
 import ai.djl.basicdataset.cv.classification.FashionMnist;
+import ai.djl.metric.Metric;
+import ai.djl.metric.Metrics;
 import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.NDManager;
 import ai.djl.ndarray.types.Shape;
+import ai.djl.training.EasyTrain;
+import ai.djl.training.Trainer;
 import ai.djl.training.dataset.Dataset;
 import ai.djl.translate.TranslateException;
 import com.github.r73pls.djl_Project.imageClassificftion.*;
@@ -80,15 +84,25 @@ public class DjlProjectApplication {
 
 		int numEpochs = 5;
 		float lr = 0.1f;
+//
+//		try {
+//			TrainingModelSm.trainCh3(Net::net, trainingSet, validationSet, LossFunction::crossEntropy, numEpochs, Updater::updater);
+//		} catch (TranslateException e) {
+//			throw new RuntimeException(e);
+//		}
+
+		Metrics metrics = new Metrics();
+		Trainer trainer = SoftMaxModel.trainer;
+		trainer.initialize(new Shape(1, 28 * 28));
+		trainer.setMetrics(metrics);
 
 		try {
-			TrainingModelSm.trainCh3(Net::net, trainingSet, validationSet, LossFunction::crossEntropy, numEpochs, Updater::updater);
+			EasyTrain.fit(trainer, numEpochs, trainingSet, validationSet);
 		} catch (TranslateException e) {
 			throw new RuntimeException(e);
 		}
+		var result = trainer.getTrainingResult();
+
 	}
-
-
-
 
 }
