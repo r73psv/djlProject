@@ -13,7 +13,7 @@ import java.awt.Color;
 import java.io.IOException;
 
 public class DataSetImage {
-    private static int batchSize = 256;
+    public static int batchSize = 256;
     private static boolean randomShuffle = true;
     NDManager manager= NDManager.newBaseManager();
     /**

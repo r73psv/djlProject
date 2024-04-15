@@ -9,7 +9,7 @@ import ai.djl.training.dataset.Batch;
 import java.util.function.UnaryOperator;
 
 public class LossFunction {
-   private static NDManager manager =NDManager.newBaseManager();
+   //private static NDManager manager =NDManager.newBaseManager();
     /**
      * Нам нужно реализовать функцию кросс-энтропийных потерь. Это, возможно, самая распространенная функция потерь
      * во всем глубоком обучении.

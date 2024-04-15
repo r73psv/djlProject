@@ -12,11 +12,13 @@ import ai.djl.training.Trainer;
 import ai.djl.training.dataset.Dataset;
 import ai.djl.translate.TranslateException;
 import com.github.r73pls.djl_Project.imageClassificftion.*;
+import com.github.r73pls.djl_Project.mlp.MlpTrainer;
+import com.github.r73pls.djl_Project.mlp.TrainModel;
 import com.github.r73pls.djl_Project.ndarray.LinearRegressionTrainer;
 import com.github.r73pls.djl_Project.ndarray.NdArrayLes1;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import ai.djl.translate.TranslateException;
 import java.io.IOException;
 
 @SpringBootApplication
@@ -26,7 +28,7 @@ public class DjlProjectApplication {
 
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		SpringApplication.run(DjlProjectApplication.class, args);
 //		NDArray nd=  NdArrayLes1.createNdArray(12);
 //		Shape shape = NdArrayLes1.getNDarrayShape(nd);
@@ -82,27 +84,37 @@ public class DjlProjectApplication {
 				.optLimit(Long.getLong("DATASET_LIMIT", Long.MAX_VALUE))
 				.build();
 
-		int numEpochs = 5;
+		int numEpochs = 10;
 		float lr = 0.1f;
-//
+
 //		try {
 //			TrainingModelSm.trainCh3(Net::net, trainingSet, validationSet, LossFunction::crossEntropy, numEpochs, Updater::updater);
 //		} catch (TranslateException e) {
 //			throw new RuntimeException(e);
 //		}
+////
+//		Metrics metrics = new Metrics();
+//		Trainer trainer = SoftMaxModel.trainer;
+//		trainer.initialize(new Shape(1, 28 * 28));
+//		trainer.setMetrics(metrics);
+//
+//		try {
+//			EasyTrain.fit(trainer, numEpochs, trainingSet, validationSet);
+//		} catch (TranslateException e) {
+//			throw new RuntimeException(e);
+//		}
+//		var result = trainer.getTrainingResult();
+//
+//	}
 
-		Metrics metrics = new Metrics();
-		Trainer trainer = SoftMaxModel.trainer;
-		trainer.initialize(new Shape(1, 28 * 28));
-		trainer.setMetrics(metrics);
-
-		try {
-			EasyTrain.fit(trainer, numEpochs, trainingSet, validationSet);
-		} catch (TranslateException e) {
-			throw new RuntimeException(e);
-		}
-		var result = trainer.getTrainingResult();
-
+//		try {
+//			MlpTrainer.train(Net::net, trainingSet, validationSet, Updater::updater);
+//		} catch (TranslateException e) {
+//			throw new RuntimeException(e);
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
+		TrainModel.train(trainingSet,validationSet);
+		TrainModel.saveModel();
 	}
-
 }
