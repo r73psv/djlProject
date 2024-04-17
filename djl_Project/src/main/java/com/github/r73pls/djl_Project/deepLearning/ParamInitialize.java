@@ -46,7 +46,7 @@ public void initParam(){
 Давайте напишем функцию для удобного создания этих сетевых архитектур.
  */
 
-    public SequentialBlock getNet() {
+    public static SequentialBlock getNet() {
         SequentialBlock net = new SequentialBlock();
         net.add(Linear.builder().setUnits(8).build());
         net.add(Activation.reluBlock());
