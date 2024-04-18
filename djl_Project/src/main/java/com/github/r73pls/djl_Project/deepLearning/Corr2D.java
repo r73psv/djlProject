@@ -22,7 +22,7 @@ public class Corr2D {
      * чтобы было достаточно места для смещения ядра). Далее мы реализуем этот процесс в функции corr2d,
      * которая принимает входной массив X и массив ядра K и возвращает выходной массив Y.
      */
-    NDManager manager=NDManager.newBaseManager();
+    static NDManager manager=NDManager.newBaseManager();
 public static NDArray corr2d(NDArray X, NDArray K){
     // Compute 2D cross-correlation.
     int h = (int) K.getShape().get(0);

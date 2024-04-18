@@ -18,9 +18,9 @@ public class MultiInputCannel {
      * выполняем одну операцию взаимной корреляции для каждого канала, а затем суммируем результаты с помощью функции sum().
      */
 
-    NDManager manager = NDManager.newBaseManager();
+    static NDManager manager = NDManager.newBaseManager();
 
-    public NDArray corr2D(NDArray X, NDArray K) {
+    public static NDArray corr2D(NDArray X, NDArray K) {
 
         long h = K.getShape().get(0); //высота ядра свертки
         long w = K.getShape().get(1);//ширина ядра свертка

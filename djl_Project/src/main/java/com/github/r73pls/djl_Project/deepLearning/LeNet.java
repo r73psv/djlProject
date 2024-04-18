@@ -73,8 +73,8 @@ public class LeNet {
      */
 
 
-    NDManager manager = NDManager.newBaseManager();
-    public SequentialBlock blocLeNet(){
+    static NDManager manager = NDManager.newBaseManager();
+    public static SequentialBlock blocLeNet(){
     Engine.getInstance().setRandomSeed(1111);
     SequentialBlock block = new SequentialBlock();
 
@@ -118,26 +118,30 @@ return block;
   * пропустив изображение через сетку и распечатав выходную форму на каждом слое, мы можем проверить модель,
  * чтобы убедиться, что ее работа соответствует тому, что мы ожидаем
  */
-public void modelLenet (){
-    float lr = 0.9f;
+static float lr = 0.9f;
+public static Model modelLenet(){
+
     Model model = Model.newInstance("cnn");
     SequentialBlock block=blocLeNet();
     model.setBlock(block);
+    return model;
+}
+static SequentialBlock block =blocLeNet();
+static Model model=modelLenet();
+    static Loss loss = Loss.softmaxCrossEntropyLoss();
 
-    Loss loss = Loss.softmaxCrossEntropyLoss();
+   static Tracker lrt = Tracker.fixed(lr);
+    static Optimizer sgd = Optimizer.sgd().setLearningRateTracker(lrt).build();
 
-    Tracker lrt = Tracker.fixed(lr);
-    Optimizer sgd = Optimizer.sgd().setLearningRateTracker(lrt).build();
-
-    DefaultTrainingConfig config = new DefaultTrainingConfig(loss).optOptimizer(sgd) // Optimizer (loss function)
+    static  DefaultTrainingConfig config = new DefaultTrainingConfig(loss).optOptimizer(sgd) // Optimizer (loss function)
             .optDevices(Engine.getInstance().getDevices(1)) // Single GPU
             .addEvaluator(new Accuracy()) // Model Accuracy
             .addTrainingListeners(TrainingListener.Defaults.basic());
 
+   static NDArray X = manager.randomUniform(0f, 1.0f, new Shape(1, 1, 28, 28));
+    public static Trainer train(){
     Trainer trainer = model.newTrainer(config);
-
-    NDArray X = manager.randomUniform(0f, 1.0f, new Shape(1, 1, 28, 28));
-    trainer.initialize(X.getShape());
+      trainer.initialize(X.getShape());
 
     Shape currentShape = X.getShape();
 
@@ -146,6 +150,7 @@ public void modelLenet (){
         currentShape = newShape[0];
         System.out.println(block.getChildren().get(i).getKey() + " layer output : " + currentShape);
     }
+    return trainer;
 }
 /**
  * Обратите внимание, что высота и ширина представления на каждом слое в сверточном блоке уменьшены
@@ -157,10 +162,10 @@ public void modelLenet (){
  * слой уменьшает высоту и ширину вдвое. Наконец, каждый полностью подключенный слой уменьшает размерность,
  * в итоге выдавая выходные данные, размерность которых соответствует количеству классов.
  */
-double[] trainLoss;
-    double[] testAccuracy;
+static double[] trainLoss;
+    static double[] testAccuracy;
     double[] epochCount;
-    double[] trainAccuracy;
+    static double[] trainAccuracy;
 public void trainLeNet(){
     int batchSize = 256;
     int numEpochs = Integer.getInteger("MAX_EPOCH", 10);
@@ -187,8 +192,8 @@ public void trainLeNet(){
 
 }
 
-    public void trainingChapter6(ArrayDataset trainIter, ArrayDataset testIter,
-                                 int numEpochs, Trainer trainer) throws IOException, TranslateException {
+    public static void trainingChapter6(ArrayDataset trainIter, ArrayDataset testIter,
+                                        int numEpochs, Trainer trainer) throws IOException, TranslateException {
 
         double avgTrainTimePerEpoch = 0;
         Map<String, double[]> evaluatorMetrics = new HashMap<>();
