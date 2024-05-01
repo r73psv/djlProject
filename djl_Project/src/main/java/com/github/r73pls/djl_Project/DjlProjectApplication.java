@@ -11,6 +11,7 @@ import ai.djl.training.EasyTrain;
 import ai.djl.training.Trainer;
 import ai.djl.training.dataset.Dataset;
 import ai.djl.translate.TranslateException;
+import com.github.r73pls.djl_Project.deepLearning.LeNet;
 import com.github.r73pls.djl_Project.imageClassificftion.*;
 import com.github.r73pls.djl_Project.mlp.MlpTrainer;
 import com.github.r73pls.djl_Project.mlp.TrainModel;
@@ -114,7 +115,14 @@ public class DjlProjectApplication {
 //		} catch (IOException e) {
 //			throw new RuntimeException(e);
 //		}
-		TrainModel.train(trainingSet,validationSet);
-		TrainModel.saveModel();
+//		TrainModel.train(trainingSet,validationSet);
+//		TrainModel.saveModel();
+		try {
+			LeNet.trainingChapter6(trainingSet,validationSet, numEpochs, LeNet.train());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (TranslateException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
